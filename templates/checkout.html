@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+<!-- {% load static %} -->
+{% block content %}
+{% load crispy_forms_tags %}
+
+
+        <main class="main">
+            <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+                <div class="container">
+                    <h1 class="page-title">Checkout<span>Shop</span></h1>
+                </div><!-- End .container -->
+            </div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+                <div class="checkout">
+                    <div class="container">
+                        {% if order.coupon %}
+                        <h6 style="color: rgb(90, 140, 90);">coupon already applied</h6>
+                        {% else %}
+                        <div class="checkout-discount">
+                            <form action="#">
+                                <input type="text" class="form-control" required id="checkout-discount-input">
+                                <label for="checkout-discount-input" class="text-truncate">Have a coupon? <span>Click
+                                        here to enter your code</span></label>
+                            </form>
+                        </div><!-- End .checkout-discount -->
+                        {% endif %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-lg-9">
+                                    <h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
+                                    
+                                    <label>Street address 1*</label>
+                                    <input type="text" class="form-control" placeholder="House number and Street name"
+                                        id='shipping_address' name='shipping_address' required>
+                                    <label>Street address 2*</label>
+                                    <input type="text" class="form-control" placeholder="Street Address"
+                                        id='shipping_address2' name='shipping_address2' required>
+                                    
+
+                                    
+
+                                    <label>Country *</label>
+                                    <input type="text" class="form-control" id='shipping_country' name='shipping_country' required>
+
+                                    
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label>Town / City *</label>
+                                            <input type="text" class="form-control" id='shipping_town' name='shipping_town' required>
+                                        </div><!-- End .col-sm-6 -->
+
+                                        <div class="col-sm-6">
+                                            <label>State *</label>
+                                            <input type="text" class="form-control" id='shipping_state' name='shipping_state' required>
+                                        </div><!-- End .col-sm-6 -->
+                                    </div><!-- End .row -->
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label>Postcode / ZIP *</label>
+                                            <input type="text" class="form-control" id='shipping_zip' name='shipping_zip' required>
+                                        </div><!-- End .col-sm-6 -->
+
+                                        <div class="col-sm-6">
+                                            <label>Phone *</label>
+                                            <input type="tel" class="form-control" id='shipping_contact' name='shipping_contact' required>
+                                        </div><!-- End .col-sm-6 -->
+                                    </div><!-- End .row -->
+
+                                    <h6>Payment option</h6>
+
+                                    <div class="d-block my-3">
+                                      {% for value, name in form.fields.payment_option.choices %}
+                                      <div class="custom-control custom-radio">
+                                        <input id="{{ name }}" name="payment_option" value="{{ value }}" type="radio" class="custom-control-input" required>
+                                        <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                                      </div>
+                                      {% endfor %}
+                                    </div>
+
+                                 
+
+                             
+
+                                    
+                                </div><!-- End .col-lg-9 -->
+                                <aside class="col-lg-3">
+                                    <div class="summary">
+                                        <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+
+                                        <table class="table table-summary">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>Quantity</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                {% for order_item in order.items.all %}
+
+                                                <tr>
+                                                    <td><a href="#">{{ order_item.item.title }}</a></td>
+                                                    <td style="padding-left: 30px;">{{ order_item.quantity }}</td>
+                                                    <td>Rs {{ order_item.get_final_price }}</td>
+                                                </tr>
+                                                {% endfor %}
+
+                                                
+                                            </tbody>
+                                        </table>
+                                        
+                                        <table class="table table-summary" style="margin-top: 30px;">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td>Shipping:</td>
+                                                    <td>Rs {{ order.delievery_charge }}</td>
+                                                </tr>
+
+                                                {% if order.coupon %}
+                                                <tr style='font-weight: 500;' >
+                                                    <td >Coupon Amount:</td>
+                                                    <td>Rs {{ order.coupon.amount }}</td>
+                                                    
+                                                </tr>
+                                                {% endif %}
+                                                
+                                                <tr class="summary-subtotal">
+                                                    <td>Subtotal:</td>
+                                                    <td>Rs {{ order.get_total }}</td>
+                                                </tr><!-- End .summary-subtotal -->
+                                                
+                                                <tr class="summary-total">
+                                                    <td>Total:</td>
+                                                    <td>Rs {{order.get_total_with_delivery}}</td>
+                                                </tr><!-- End .summary-total -->
+                                            </tbody>
+                                        </table><!-- End .table table-summary -->
+
+                                        
+
+                                        <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                            <span class="btn-text">Place Order</span>
+                                            <span class="btn-hover-text">Proceed to Checkout</span>
+                                        </button>
+                                    </div><!-- End .summary -->
+                                </aside><!-- End .col-lg-3 -->
+                            </div><!-- End .row -->
+                        </form>
+                    </div><!-- End .container -->
+                </div><!-- End .checkout -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+{% endblock %}
+
+        
