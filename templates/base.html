@@ -15,7 +15,12 @@
     <meta name="keywords" content="HTML5 Template">
     <meta name="description" content="jewaraat - Bootstrap eCommerce Template">
     <meta name="author" content="p-themes">
+
+    {% block extra_head %}
+    {% endblock %}
+
     <!-- Favicon -->
+
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/images/icons/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/images/icons/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/images/icons/favicon-16x16.png' %}">
@@ -42,6 +47,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- <link rel="stylesheet" type="text/css" href="css/starability-all.min.css"/> -->
     <link rel="stylesheet" href="{% static 'assets/css/staribility.css' %}">
+    
     
 </head>
 

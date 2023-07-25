@@ -3,11 +3,13 @@
 {% block content %}
 <!-- {{data}} -->
         <main class="main">
-            <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+            <!-- <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
                 <div class="container">
                     <h1 class="page-title">Boxed No Sidebar<span>Shop</span></h1>
-                </div><!-- End .container -->
-            </div><!-- End .page-header -->
+                </div>
+                
+            </div> -->
+            <!-- End .page-header -->
             <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
                 <div class="container">
                     <ol class="breadcrumb">
@@ -28,7 +30,7 @@
 
                         <div class="toolbox-center">
                             <div class="toolbox-info">
-                                Showing <span>12 of 56</span> Products
+                                Showing <span>{{data|length}} </span> Products
                             </div><!-- End .toolbox-info -->
                         </div><!-- End .toolbox-center -->
 
@@ -52,24 +54,28 @@
                             <div class="col-6 col-md-4 col-lg-4 col-xl-3">
                                 <div class="product">
                                     <figure class="product-media">
-                                        <span class="product-label label-new">New</span>
-                                        <a href="{% url 'mainapp:product' a.slug %}">
+                                        
+                                        <span  class = "product-label label-new" >{{a.label}}</span>
+                                       
+                                        <a href="{% url 'mainapp:product' a.slug 'small' %}">
                                             <img src="/media/{{a.image}}" alt="Product image"
-                                                class="product-image">
+                                                class="product-image" height = "60">
                                         </a>
 
-                                        <!-- <div class="product-action-vertical">
+                                        <!-- End .product-action -->
+
+                                        <div class="product-action-vertical">
                                             <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add
                                                     to wishlist</span></a>
-                                        </div>End .product-action -->
+                                        </div>
 
-                                        <!-- <div class="product-action action-icon-top">
+                                        <!-- End .product-action -->
+
+                                        <div class="product-action action-icon-top">
                                             <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                                            <a href="popup/quickView.html" class="btn-product btn-quickview"
-                                                title="Quick view"><span>quick view</span></a>
-                                            <a href="#" class="btn-product btn-compare"
-                                                title="Compare"><span>compare</span></a>
-                                        </div>End .product-action -->
+                                            
+                                        </div>
+
                                     </figure><!-- End .product-media -->
                                     <div class="product-cat product-body product-title">
                                         

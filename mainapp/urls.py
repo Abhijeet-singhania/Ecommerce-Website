@@ -13,7 +13,7 @@ from .views import (
     add_to_cart,
     remove_from_cart,
     remove_single_item_from_cart,
-    # PaymentView,
+    PaymentView,
     AddCouponView,
     RequestRefundView,
     index,
@@ -22,7 +22,12 @@ from .views import (
     WishlistSummaryView,
     remove_from_wishlist,
     add_review,
-    AllProductsView
+    AllProductsView,
+    success,
+    ContactView,
+    AboutView,
+    item_detail_view_size,
+    add_to_wishlist_size
     
 )
 
@@ -36,17 +41,24 @@ urlpatterns = [
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('order-summary/', OrderSummaryView.as_view(), name='order-summary'),
     path('wishlist-summary/', WishlistSummaryView, name='wishlist-summary'),
-    path('product/<slug>/', item_detail_view, name='product'),
-    path('add-to-cart/<slug>/', add_to_cart, name='add-to-cart'),
+    # path('product/<slug>/', item_detail_view, name='product'),
+    path('product/<slug>/<size>', item_detail_view_size, name='product'),
+    path('add-to-cart/<slug>/<size>', add_to_cart, name='add-to-cart'),
     path('add-to-wishlist/<slug>/', add_to_wishlist, name='add-to-wishlist'),
-    path('add-review/<slug>/', add_review, name='add-review'),
+    path('add-to-wishlist/<slug>/<size>', add_to_wishlist_size, name='add-to-wishlist'),
+    path('add-review/<slug>/<size>', add_review, name='add-review'),
     path('add-coupon/', AddCouponView.as_view(http_method_names=['post']), name='add-coupon'),
     path('remove-from-cart/<slug>/', remove_from_cart, name='remove-from-cart'),
     path('remove-from-wishlist/<slug>/', remove_from_wishlist, name='remove-from-wishlist'),
     path('remove-single-item-from-cart/<slug>/', remove_single_item_from_cart,name= 'remove-single-item-from-cart'),
-    # path('payment/<payment_option>/', PaymentView.as_view(), name='payment'),
+    path('payment/<payment_option>/', PaymentView.as_view(), name='payment'),
     path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
-    path('cart', views.cart, name='cart'),
+    path('create-checkout-session/', PaymentView.as_view(), name='create-checkout-session'),
+    path('success/', success, name='success'),
+    path('about/', AboutView, name='about'),
+    path('contact/', ContactView, name='contact'),
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
     

@@ -52,6 +52,9 @@ class Item(models.Model):
     image = models.ImageField(upload_to='products/')
     available_stock = models.IntegerField(default=0)
     rating = models.IntegerField()
+    image_side = models.ImageField(upload_to='products/', null = True ,blank = True)
+    image_cross = models.ImageField(upload_to='products/', null=True,blank = True)
+    image_back = models.ImageField(upload_to='products/', null= True,blank = True)
 
 
     def __str__(self):
@@ -78,6 +81,7 @@ class OrderItem(models.Model):
     ordered = models.BooleanField(default=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+    size = models.CharField(default="small",max_length=100)
 
     def __str__(self):
         return f"{self.quantity} of {self.item.title}"
@@ -131,6 +135,21 @@ class Order(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+    def get_total_without_discount(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_total_item_price()
+        
+        return total
+    
+    def get_total_discount_amount(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_amount_saved()
+        
+        return total
+        
 
     def get_total(self):
         total = 0

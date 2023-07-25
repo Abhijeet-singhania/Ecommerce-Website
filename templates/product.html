@@ -8,7 +8,7 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
                             <li class="breadcrumb-item"><a href="#">Products</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Default</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{object.slug}}</li>
                         </ol>
     
                         <nav class="product-pager ml-auto" aria-label="Product">
@@ -42,31 +42,26 @@
                                             </figure><!-- End .product-main-image -->
     
                                             <div id="product-zoom-gallery" class="product-image-gallery">
-                                                <a class="product-gallery-item active" href="#"
+                                                <a class="product-gallery-item active" href="#product-zoom"
                                                     data-image="static/assets/images/products/single/1.jpg"
                                                     data-zoom-image="static/assets/images/products/single/1-big.jpg">
-                                                    <img src="static/assets/images/products/single/1-small.jpg"
+                                                    <img src="/media/{{object.image_side}}"
                                                         alt="product side">
                                                 </a>
     
-                                                <a class="product-gallery-item" href="#"
+                                                <a class="product-gallery-item" href="#product-zoom"
                                                     data-image="static/assets/images/products/single/2.jpg"
                                                     data-zoom-image="static/assets/images/products/single/2-big.jpg">
-                                                    <img src="static/assets/images/products/single/2-small.jpg"
+                                                    <img src="/media/{{object.image_cross}}"
                                                         alt="product cross">
                                                 </a>
     
-                                                <a class="product-gallery-item" href="#"
-                                                    data-image="static/assets/images/products/single/3.jpg"
-                                                    data-zoom-image="static/assets/images/products/single/3-big.jpg">
-                                                    <img src="static/assets/images/products/single/3-small.jpg"
-                                                        alt="product with model">
-                                                </a>
+                                     
     
                                                 <a class="product-gallery-item" href="#"
                                                     data-image="static/assets/images/products/single/4.jpg"
                                                     data-zoom-image="static/assets/images/products/single/4-big.jpg">
-                                                    <img src="static/assets/images/products/single/4-small.jpg"
+                                                    <img src="/media/{{object.image_back}}"
                                                         alt="product back">
                                                 </a>
                                             </div><!-- End .product-image-gallery -->
@@ -80,21 +75,17 @@
                                         <!-- End .product-title -->
     
                                         <div class="ratings-container">
-                                            <div>{{avg}} </div>
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <a class="ratings-text" href="#product-review-link" id="review-link">( Reviews {{data|length}} )</a>
+                                            <!-- <div style="size: 5px;">{{avg}} </div> -->
+                                            <p class="starability-result" data-rating="{{avg}}" style="size: 5px;">
+                                                Rated: 3 stars
+                                            </p><!-- End .ratings -->
+                                            <a class="ratings-text mt-1" href="#product-review-link" id="review-link">( Reviews {{data|length}} )</a>
                                         </div><!-- End .rating-container -->
     
                                         <div class="product-price">
                                            $ {{ object.price }}
                                         </div><!-- End .product-price -->
 
-                                        <!-- <h3>Movie name</h3>
-                                        <p class="starability-result" data-rating="3.5" style="size: 10px;">
-                                            Rated: 3 stars
-                                        </p> -->
     
                                         <div class="product-content">
                                             <p>{{object.description}}
@@ -102,47 +93,51 @@
                                         </div><!-- End .product-content -->
     
                                         <div class="details-filter-row details-row-size">
-                                            <label>Color:</label>
+                                            <label>Size:</label>
     
                                             <div class="product-nav product-nav-thumbs">
-                                                <a href="#" class="active">
-                                                    <img src="{% static 'assets/images/products/single/1-thumb.jpg' %}"
-                                                        alt="product desc">
+                                                <a href="small" class="active" style="height: 30px; width: 30px; padding-left: 6px;">
+                                                    <span>S</span>
                                                 </a>
-                                                <a href="#">
-                                                    <img src="{% static 'assets/images/products/single/2-thumb.jpg' %}"
-                                                        alt="product desc">
+                                                <a href="medium" class="active" style="height: 30px; width: 30px; padding-left: 6px;">
+                                                    <span>M</span>
                                                 </a>
-                                            </div><!-- End .product-nav -->
-                                        </div><!-- End .details-filter-row -->
+                                                <a href="large" class="active" style="height: 30px; width: 30px; padding-left: 6px;">
+                                                    <span>L</span>
+                                                </a>
+                                                <a href="extra_large" class="active" style="height: 30px; width: 30px; padding-left: 6px;">
+                                                    <span>XL</span>
+                                                </a>
+                                                
+                                                
+                                            </div>
+                                            <!-- End .product-nav -->
+                                        </div>
+                                        <!-- End .details-filter-row -->
+
+                                        
     
-                                        <div class="details-filter-row details-row-size">
-                                            <label for="size">Size:</label>
-                                            <div class="select-custom">
-                                                <select name="size" id="size" class="form-control">
-                                                    <option value="#" selected="selected">Select a size</option>
-                                                    <option value="s">Small</option>
-                                                    <option value="m">Medium</option>
-                                                    <option value="l">Large</option>
-                                                    <option value="xl">Extra Large</option>
-                                                </select>
-                                            </div><!-- End .select-custom -->
+                                        <!-- <div class="details-filter-row details-row-size"> -->
+                                            <!-- <div class="product-nav product-nav-thumbs">
+                                                <label>Selected Size</label>
+                                                <a href="small" class="active" style="height: 30px; width: 30px; padding-left: 6px;">
+                                                    <span>S</span>
+                                                </a>
+                                            </div> -->
+
+                                            <div class="product-cat mb-2">
+                                                <span>Size selected:</span>
+                                                <a href="#">{{size}}</a> 
+
+                                            </div><!-- End .product-cat -->
     
-                                            <!-- <a href="#" class="size-guide"><i class="icon-th-list"></i>size guide</a> -->
-                                        </div><!-- End .details-filter-row -->
-    
-                                        <div class="details-filter-row details-row-size">
-                                            <label for="qty">Qty:</label>
-                                            <div class="product-details-quantity">
-                                                <input type="number" id="qty" class="form-control" value="1" min="1"
-                                                    max="10" step="1" data-decimals="0" required>
-                                            </div><!-- End .product-details-quantity -->
-                                        </div><!-- End .details-filter-row -->
+                                        
+
     
                                         <div class="product-details-action">
-                                            <a href="{% url 'mainapp:add-to-cart' object.slug%}" class="btn-product btn-cart"><span>add to cart</span></a>
+                                            <a href="{% url 'mainapp:add-to-cart' object.slug size %}" class="btn-product btn-cart"><span>add to cart</span></a>
                                             <div class="details-action-wrapper">
-                                                <a href="{% url 'mainapp:add-to-wishlist' object.slug%}" class="btn-product btn-wishlist" title="Wishlist"><span>Add to
+                                                <a href="{% url 'mainapp:add-to-wishlist' object.slug size %}" class="btn-product btn-wishlist" title="Wishlist"><span>Add to
                                                         Wishlist</span></a>
                                                 <!-- <a href="#" class="btn-product btn-compare" title="Compare"><span>Add to
                                                         Compare</span></a> -->
@@ -258,7 +253,7 @@
                                         </div><!-- End .review -->
                                         {% endfor %}
 
-                                        <form action="/add-review/{{object.slug}}/" method="post">
+                                        <form action="/add-review/{{object.slug}}/{{size}}" method="post">
                                             {% csrf_token %}
                                             <div class="row">
                                                 <div class="col-lg-9">

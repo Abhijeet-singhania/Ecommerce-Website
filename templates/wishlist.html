@@ -51,7 +51,7 @@
                                 </td>
                                 <td class="price-col">${{item.price}}</td>
                                 <td class="stock-col"><span class="in-stock">In stock</span></td>
-                                <td><a href="{% url 'mainapp:add-to-cart' item.slug%}" class="btn-product btn-cart ml-0"><span>add to cart</span></a></td>
+                                <td><a href="{% url 'mainapp:add-to-cart' item.slug 'small' %}" class="btn-product btn-cart ml-0"><span>add to cart</span></a></td>
                                 <td class="remove-col"><a href="{% url 'mainapp:remove-from-wishlist' item.slug %}"><button class="btn-remove"><i class="icon-close"></i></button></a>
                                 </td>
                             </tr>

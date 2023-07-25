@@ -37,47 +37,67 @@
                         <form method="post">
                             {% csrf_token %}
                             <div class="row">
+
                                 <div class="col-lg-9">
+
+                                    <!-- {% if default_shipping_address %} -->
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="use_default_shipping" id="use_default_shipping">
+                                        <label class="custom-control-label" for="use_default_shipping">Use default shipping address: {{ default_shipping_address.street_address|truncatechars:10 }}</label>
+                                    </div>
+                                    <!-- {% endif %} -->
+
+                                <div class="hideable_shipping_form" >
+
+
                                     <h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
                                     
                                     <label>Street address 1*</label>
                                     <input type="text" class="form-control" placeholder="House number and Street name"
-                                        id='shipping_address' name='shipping_address' required>
+                                        id='shipping_address' name='shipping_address' >
                                     <label>Street address 2*</label>
                                     <input type="text" class="form-control" placeholder="Street Address"
-                                        id='shipping_address2' name='shipping_address2' required>
+                                        id='shipping_address2' name='shipping_address2' >
                                     
 
                                     
 
                                     <label>Country *</label>
-                                    <input type="text" class="form-control" id='shipping_country' name='shipping_country' required>
+                                    <input type="text" class="form-control" id='shipping_country' name='shipping_country' >
 
                                     
 
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <label>Town / City *</label>
-                                            <input type="text" class="form-control" id='shipping_town' name='shipping_town' required>
+                                            <input type="text" class="form-control" id='shipping_town' name='shipping_town' >
                                         </div><!-- End .col-sm-6 -->
 
                                         <div class="col-sm-6">
                                             <label>State *</label>
-                                            <input type="text" class="form-control" id='shipping_state' name='shipping_state' required>
+                                            <input type="text" class="form-control" id='shipping_state' name='shipping_state' >
                                         </div><!-- End .col-sm-6 -->
                                     </div><!-- End .row -->
 
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <label>Postcode / ZIP *</label>
-                                            <input type="text" class="form-control" id='shipping_zip' name='shipping_zip' required>
+                                            <input type="text" class="form-control" id='shipping_zip' name='shipping_zip' >
                                         </div><!-- End .col-sm-6 -->
 
                                         <div class="col-sm-6">
                                             <label>Phone *</label>
-                                            <input type="tel" class="form-control" id='shipping_contact' name='shipping_contact' required>
+                                            <input type="tel" class="form-control" id='shipping_contact' name='shipping_contact' >
                                         </div><!-- End .col-sm-6 -->
+
+
                                     </div><!-- End .row -->
+
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="set_default_shipping" id="set_default_shipping">
+                                        <label class="custom-control-label" for="set_default_shipping">Save as default shipping address</label>
+                                    </div>
+                                </div>
 
                                     <h6>Payment option</h6>
 
@@ -96,6 +116,9 @@
 
                                     
                                 </div><!-- End .col-lg-9 -->
+
+                                
+
                                 <aside class="col-lg-3">
                                     <div class="summary">
                                         <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
@@ -115,7 +138,7 @@
                                                 <tr>
                                                     <td><a href="#">{{ order_item.item.title }}</a></td>
                                                     <td style="padding-left: 30px;">{{ order_item.quantity }}</td>
-                                                    <td>Rs {{ order_item.get_final_price }}</td>
+                                                    <td>Rs {{ order_item.get_total_item_price }}</td>
                                                 </tr>
                                                 {% endfor %}
 
@@ -126,10 +149,18 @@
                                         <table class="table table-summary" style="margin-top: 30px;">
                                             <tbody>
 
-                                                <tr>
-                                                    <td>Shipping:</td>
-                                                    <td>Rs {{ order.delievery_charge }}</td>
+                                                <tr class="summary-subtotal">
+                                                    <td>Total Amount :</td>
+                                                    <td>Rs {{ order.get_total_without_discount }}</td>
                                                 </tr>
+
+
+                                                <tr class="summary-subtotal">
+                                                    <td>Total Amount Saved:</td>
+                                                    <td>Rs {{ order.get_total_discount_amount }}</td>
+                                                </tr>
+
+                                                
 
                                                 {% if order.coupon %}
                                                 <tr style='font-weight: 500;' >
@@ -143,9 +174,14 @@
                                                     <td>Subtotal:</td>
                                                     <td>Rs {{ order.get_total }}</td>
                                                 </tr><!-- End .summary-subtotal -->
+
+                                                <tr>
+                                                    <td>Shipping:</td>
+                                                    <td>Rs {{ order.delievery_charge }}</td>
+                                                </tr>
                                                 
                                                 <tr class="summary-total">
-                                                    <td>Total:</td>
+                                                    <td>Total Amount(Payable):</td>
                                                     <td>Rs {{order.get_total_with_delivery}}</td>
                                                 </tr><!-- End .summary-total -->
                                             </tbody>
@@ -166,5 +202,23 @@
             </div><!-- End .page-content -->
         </main><!-- End .main -->
 {% endblock %}
+
+
+
+{% block extra_scripts %}
+<script>
+var hideable_shipping_form = $('.hideable_shipping_form');
+
+var use_default_shipping = document.querySelector("input[name=use_default_shipping]");
+
+use_default_shipping.addEventListener('change', function() {
+  if (this.checked) {
+    console.log("clicked")
+  } else {
+    console.log("not clicked")
+  }
+})
+</script>
+{% endblock extra_scripts %}
 
         
