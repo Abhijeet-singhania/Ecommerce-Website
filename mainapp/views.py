@@ -142,9 +142,6 @@ class CheckoutView(View):
 
     
 class PaymentView(View):
-
-
-
     def get(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
         return render(self.request, "payment.html")
